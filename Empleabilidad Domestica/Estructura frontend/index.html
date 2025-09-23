@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DomesticWork - Empleabilidad Doméstica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+        
+        nav ul li a i {
+            margin-right: 5px;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e11574;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.9)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-box button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: #e11574;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        /* Job Listings */
+        .job-listings {
+            padding: 4rem 0;
+            background-color: var(--light);
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-select {
+            padding: 0.7rem 1rem;
+            border-radius: 5px;
+            border: 1px solid var(--light-gray);
+            background: white;
+            color: var(--dark);
+        }
+        
+        .job-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .job-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .job-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .job-meta {
+            display: flex;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .job-meta i {
+            margin-right: 5px;
+        }
+        
+        .job-body {
+            padding: 1.5rem;
+        }
+        
+        .job-description {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+        
+        .job-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-tag {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--dark);
+        }
+        
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--light-gray);
+        }
+        
+        .job-salary {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 4rem 0;
+        }
+        
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .testimonial-card:before {
+            content: """;
+            font-size: 5rem;
+            color: var(--light-gray);
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-text {
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: var(--gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .author-info h4 {
+            margin-bottom: 0.2rem;
+        }
+        
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin: 1rem 0;
+                justify-content: center;
+            }
+            
+            .user-actions {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+            
+            .search-box input {
+                border-radius: 10px 10px 0 0;
+            }
+            
+            .search-box button {
+                border-radius: 0 0 10px 10px;
+                padding: 1rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-hands-helping"></i>
+                    DomesticWork
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="#"><i class="fas fa-search"></i> Buscar Empleo</a></li>
+                        <li><a href="#"><i class="fas fa-user-tie"></i> Para Empleadores</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> Acerca de</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline"><i class="fas fa-plus"></i> Publicar Trabajo</button>
+                    <div class="user-profile">
+                        <div class="user-avatar">MJ</div>
+                        <span>María José</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Encuentra el trabajo doméstico perfecto</h1>
+            <p>Conectamos a empleadores con profesionales domésticos calificados. Encuentra empleo o contrata personal de confianza.</p>
+            <div class="search-box">
+                <input type="text" placeholder="¿Qué tipo de empleo buscas? Ej: Niñera, Limpieza, Cocinera...">
+                <button>Buscar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>¿Por qué elegirnos?</h2>
+                <p>Ofrecemos la mejor plataforma para conectar empleadores y trabajadores domésticos</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Perfiles Verificados</h3>
+                    <p>Todos nuestros trabajadores pasan por un proceso de verificación para garantizar tu seguridad.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Búsqueda Avanzada</h3>
+                    <p>Encuentra el candidato perfecto filtrando por habilidades, experiencia y ubicación.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Comunicación Directa</h3>
+                    <p>Contacta directamente con los candidatos a través de nuestra plataforma segura.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Listings -->
+    <section class="job-listings">
+        <div class="container">
+            <div class="section-title">
+                <h2>Empleos Destacados</h2>
+                <p>Las mejores oportunidades de empleo doméstico disponibles ahora</p>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>Todas las categorías</option>
+                        <option>Niñera/Cuidado de niños</option>
+                        <option>Limpieza del hogar</option>
+                        <option>Cocinera</option>
+                        <option>Cuidado de ancianos</option>
+                        <option>Jardinería</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Cualquier ubicación</option>
+                        <option>Bogotá</option>
+                        <option>Medellín</option>
+                        <option>Cali</option>
+                        <option>Barranquilla</option>
+                        <option>Cartagena</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>Tipo de empleo</option>
+                        <option>Tiempo completo</option>
+                        <option>Medio tiempo</option>
+                        <option>Por horas</option>
+                        <option>Live-in</option>
+                    </select>
+                    <button class="btn btn-primary">Aplicar Filtros</button>
+                </div>
+            </div>
+            
+            <div class="job-cards">
+                <!-- Job Card 1 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">Niñera para dos niños</h3>
+                        <div class="job-meta">
+                            <i class="fas fa-map-marker-alt"></i> Bogotá, Chapinero
+                        </div>
+                    </div>
+                    <div class="job-body">
+                        <p class="job-description">Buscamos niñera responsable para cuidado de dos niños (4 y 7 años) en las tardes. Experiencia con niños en edad escolar requerida.</p>
+                        <div class="job-skills">
+                            <span class="skill-tag">Cuidado de niños</span>
+                            <span class="skill-tag">Tareas escolares</span>
+                            <span class="skill-tag">Primeros auxilios</span>
+                        </div>
+                    </div>
+                    <div class="job-footer">
+                        <div class="job-salary">$1.200.000/mes</div>
+                        <button class="btn btn-primary">Aplicar</button>
+                    </div>
+                </div>
+                
+                <!-- Job Card 2 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">Empleada doméstica integral</h3>
+                        <div class="job-meta">
+                            <i class="fas fa-map-marker-alt"></i> Medellín, El Poblado
+                        </div>
+                    </div>
+                    <div class="job-body">
+                        <p class="job-description">Se requiere empleada doméstica para limpieza, cocina y organización del hogar. Experiencia mínima de 2 años. Vivienda incluida.</p>
+                        <div class="job-skills">
+                            <span class="skill-tag">Limpieza</span>
+                            <span class="skill-tag">Cocina</span>
+                            <span class="skill-tag">Organización</span>
+                        </div>
+                    </div>
+                    <div class="job-footer">
+                        <div class="job-salary">$1.500.000/mes</div>
+                        <button class="btn btn-primary">Aplicar</button>
+                    </div>
+                </div>
+                
+                <!-- Job Card 3 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">Cuidado de adulto mayor</h3>
+                        <div class="job-meta">
+                            <i class="fas fa-map-marker-alt"></i> Cali, Granada
+                        </div>
+                    </div>
+                    <div class="job-body">
+                        <p class="job-description">Necesitamos persona paciente y con experiencia en cuidado de adultos mayores. Turnos de 8 horas, fines de semana libres.</p>
+                        <div class="job-skills">
+                            <span class="skill-tag">Cuidado de ancianos</span>
+                            <span class="skill-tag">Compañía</span>
+                            <span class="skill-tag">Medicación</span>
+                        </div>
+                    </div>
+                    <div class="job-footer">
+                        <div class="job-salary">$1.000.000/mes</div>
+                        <button class="btn btn-primary">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Lo que dicen nuestros usuarios</h2>
+                <p>Experiencias reales de empleadores y trabajadores</p>
+            </div>
+            
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Encontré a la niñera perfecta para mis hijos en esta plataforma. El proceso fue fácil y seguro, y ahora tengos paz mental sabiendo que mis hijos están en buenas manos.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">CM</div>
+                        <div class="author-info">
+                            <h4>Carolina Martínez</h4>
+                            <p>Empleadora</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Llevo 3 años trabajando como empleada doméstica gracias a esta plataforma. He conseguido trabajos estables con familias maravillosas que valoran mi trabajo.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RM</div>
+                        <div class="author-info">
+                            <h4>Rosa Méndez</h4>
+                            <p>Empleada doméstica</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Como empleador, valoro mucho la verificación de perfiles. Me siento seguro contratando a través de esta plataforma y he formado un gran equipo doméstico.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JG</div>
+                        <div class="author-info">
+                            <h4>Javier González</h4>
+                            <p>Empleador</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DomesticWork</h3>
+                    <p>La plataforma líder en empleabilidad doméstica, conectando a empleadores y trabajadores de confianza.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Buscar Empleo</a></li>
+                        <li><a href="#">Publicar Trabajo</a></li>
+                        <li><a href="#">Cómo funciona</a></li>
+                        <li><a href="#">Precios</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Para Trabajadores</h3>
+                    <ul>
+                        <li><a href="#">Crear Perfil</a></li>
+                        <li><a href="#">Buscar Empleo</a></li>
+                        <li><a href="#">Recursos</a></li>
+                        <li><a href="#">Testimonios</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</li>
+                        <li><i class="fas fa-phone"></i> +57 1 234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@domesticwork.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 DomesticWork. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simulación de conexión con el sistema de login/register
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si el usuario está logueado (simulación)
+            const isLoggedIn = localStorage.getItem('domesticWorkUserLoggedIn');
+            const userData = JSON.parse(localStorage.getItem('domesticWorkUserData')) || {name: 'Usuario', initial: 'U'};
+            
+            if (isLoggedIn) {
+                // Mostrar información del usuario
+                document.querySelector('.user-avatar').textContent = userData.initial;
+                document.querySelector('.user-profile span').textContent = userData.name;
+            } else {
+                // Redirigir al login si no está logueado
+                // window.location.href = 'http://localhost/login.html';
+                console.log('Usuario no logueado - Redirigiendo al login');
+            }
+            
+            // Manejo del botón de publicar trabajo
+            document.querySelector('.btn-outline').addEventListener('click', function() {
+                if (!isLoggedIn) {
+                    alert('Por favor inicia sesión para publicar un trabajo');
+                    // window.location.href = 'http://localhost/login.html';
+                    return;
+                }
+                // Lógica para publicar trabajo
+                alert('Redirigiendo al formulario para publicar trabajo');
+            });
+            
+            // Manejo de los botones de aplicar
+            document.querySelectorAll('.job-card .btn-primary').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (!isLoggedIn) {
+                        alert('Por favor inicia sesión para aplicar a este trabajo');
+                        // window.location.href = 'http://localhost/login.html';
+                        return;
+                    }
+                    alert('¡Has aplicado a este trabajo exitosamente!');
+                });
+            });
+            
+            // Manejo de la búsqueda
+            document.querySelector('.search-box button').addEventListener('click', function() {
+                const searchTerm = document.querySelector('.search-box input').value;
+                if (searchTerm.trim() !== '') {
+                    alert(`Buscando: ${searchTerm}`);
+                    // Aquí iría la lógica real de búsqueda
+                }
+            });
+        });
+    </script>
+</body>
+</html>
