@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DomesticPro - Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de colores y fuentes - Estilo Discord */
+        :root {
+            --primary: #5865F2; /* Azul Discord */
+            --secondary: #57F287; /* Verde Discord */
+            --dark: #23272A; /* Fondo oscuro Discord */
+            --darker: #1e2124; /* Más oscuro */
+            --light: #FFFFFF;
+            --gray: #99AAB5; /* Gris Discord */
+            --card-bg: #2C2F33; /* Fondo de tarjetas */
+            --accent: #EB459E; /* Rosa Discord */
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            --glow: 0 0 15px rgba(88, 101, 242, 0.5);
+            --danger: #ED4245; /* Rojo Discord */
+            --success: #57F287; /* Verde Discord */
+        }
+        
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background-color: var(--dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1, h2, h3, h4 {
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--light);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        img {
+            max-width: 100%;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 0 15px rgba(87, 242, 135, 0.5);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: var(--dark);
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-full {
+            width: 100%;
+        }
+        
+        .btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn:disabled::before {
+            display: none;
+        }
+        
+        /* Header y Navegación */
+        header {
+            background: rgba(35, 39, 42, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        header.scrolled {
+            background: rgba(30, 33, 36, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        /* Main Content - Nuevo diseño con dos columnas */
+        .main-content {
+            flex: 1;
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .auth-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: rgba(30, 33, 36, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+        
+        .video-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--darker);
+        }
+        
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(88, 101, 242, 0.2) 0%, transparent 50%), 
+                        radial-gradient(circle at 70% 20%, rgba(87, 242, 135, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 80%, rgba(235, 69, 158, 0.2) 0%, transparent 50%);
+            animation: gradientShift 10s ease-in-out infinite alternate;
+        }
+        
+        .video-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        /* Auth Container */
+        .auth-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .auth-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-header h2 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .auth-header p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .auth-tab.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .auth-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .auth-content {
+            padding: 20px;
+        }
+        
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.2);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.2);
+        }
+        
+        .form-select option {
+            background: var(--darker);
+            color: var(--light);
+        }
+        
+        .form-radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .form-radio {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .form-radio input {
+            margin-right: 6px;
+        }
+        
+        .form-help {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .form-actions {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .form-link {
+            text-align: center;
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .form-link a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-header h3 {
+            color: white;
+            margin-bottom: 0;
+            font-size: 1.2rem;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .modal-close:hover {
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Scanner */
+        .scanner-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .scanner-frame {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            border: 3px solid var(--danger);
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .scanner-frame.ready {
+            border-color: var(--success);
+        }
+        
+        .scanner-frame.detecting {
+            border-color: var(--primary);
+        }
+        
+        .scanner-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.1) 50%, transparent 51%);
+            animation: scan 2s linear infinite;
+            opacity: 0;
+        }
+        
+        .scanner-frame.detecting::before {
+            opacity: 1;
+        }
+        
+        .scanner-frame.ready::before {
+            opacity: 0;
+        }
+        
+        .scanner-icon {
+            font-size: 2.5rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+        
+        .scanner-status {
+            margin-top: 8px;
+            font-weight: 600;
+            color: var(--danger);
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .scanner-frame.detecting + .scanner-status {
+            color: var(--primary);
+        }
+        
+        .scanner-frame.ready + .scanner-status {
+            color: var(--success);
+        }
+        
+        .scanner-instructions {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .face-scanner {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+        }
+        
+        /* Video y Canvas para cámara */
+        #camera-preview, #camera-face-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        
+        .camera-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Code Display */
+        .code-display {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            font-weight: bold;
+            color: var(--secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes gradientShift {
+            0% { 
+                background: radial-gradient(circle at 30% 50%, rgba(88, 101, 242, 0.2) 0%, transparent 50%), 
+                            radial-gradient(circle at 70% 20%, rgba(87, 242, 135, 0.2) 0%, transparent 50%),
+                            radial-gradient(circle at 50% 80%, rgba(235, 69, 158, 0.2) 0%, transparent 50%);
+            }
+            100% { 
+                background: radial-gradient(circle at 70% 50%, rgba(88, 101, 242, 0.2) 0%, transparent 50%), 
+                            radial-gradient(circle at 30% 20%, rgba(87, 242, 135, 0.2) 0%, transparent 50%),
+                            radial-gradient(circle at 50% 20%, rgba(235, 69, 158, 0.2) 0%, transparent 50%);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .auth-section, .video-section {
+                flex: none;
+                width: 100%;
+            }
+            
+            .video-section {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                max-width: 100%;
+                margin: 0 15px;
+            }
+            
+            .auth-content {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .scanner-frame {
+                max-width: 250px;
+                height: 180px;
+            }
+            
+            .face-scanner {
+                width: 180px;
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .form-radio-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .scanner-frame {
+                max-width: 220px;
+                height: 160px;
+            }
+            
+            .face-scanner {
+                width: 160px;
+                height: 160px;
+            }
+        }
+        
+        /* Estilos específicos para computadoras */
+        @media (min-width: 1024px) {
+            .auth-container {
+                max-width: 500px;
+            }
+            
+            .scanner-frame {
+                max-width: 300px;
+                height: 200px;
+            }
+            
+            .face-scanner {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .validation-message {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .validation-message.valid {
+            color: var(--success);
+        }
+        
+        .validation-message.invalid {
+            color: var(--danger);
+        }
+        
+        /* Indicador de cámara activa */
+        .camera-active {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Detección de rostro */
+        .face-landmarks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .face-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .face-outline {
+            position: absolute;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo"><i class="fas fa-home"></i>Domestic<span>Pro</span></a>
+                <a href="index.html" class="btn btn-outline">Volver al Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="auth-section">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2>Bienvenido a DomesticPro</h2>
+                    <p>Tu plataforma confiable para personal doméstico</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Iniciar Sesión</div>
+                    <div class="auth-tab" data-tab="register">Registrarse</div>
+                </div>
+                
+                <!-- Login Form -->
+                <div class="auth-content">
+                    <form id="login-form" class="auth-form active">
+                        <div class="form-group">
+                            <label for="login-username" class="form-label">Nombre de usuario o correo electrónico</label>
+                            <input type="text" id="login-username" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password" class="form-label">Contraseña</label>
+                            <input type="password" id="login-password" class="form-input" required>
+                            <div class="form-help">
+                                <a href="#" id="forgot-password">¿Olvidaste tu contraseña?</a>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+                            <button type="button" class="btn btn-outline btn-full" id="security-code-login">Iniciar sesión con código de seguridad</button>
+                        </div>
+                        
+                        <div class="form-link">
+                            ¿No tienes una cuenta? <a href="#" id="switch-to-register">Regístrate aquí</a>
+                        </div>
+                    </form>
+                    
+                    <!-- Register Form -->
+                    <form id="register-form" class="auth-form">
+                        <div id="register-step-1">
+                            <div class="form-group">
+                                <label for="register-username" class="form-label">Nombre de usuario</label>
+                                <input type="text" id="register-username" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-fullname" class="form-label">Nombre completo</label>
+                                <input type="text" id="register-fullname" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-id" class="form-label">Número de identificación</label>
+                                <input type="text" id="register-id" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-age" class="form-label">Edad</label>
+                                <input type="number" id="register-age" class="form-input" min="18" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Género</label>
+                                <div class="form-radio-group">
+                                    <label class="form-radio">
+                                        <input type="radio" name="gender" value="femenino" required> Femenino
+                                    </label>
+                                    <label class="form-radio">
+                                        <input type="radio" name="gender" value="masculino"> Masculino
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary btn-full" id="register-next-1">Siguiente</button>
+                            </div>
+                            
+                            <div class="form-link">
+                                ¿Ya tienes una cuenta? <a href="#" id="switch-to-login">Inicia sesión aquí</a>
+                            </div>
+                        </div>
+                        
+                        <div id="register-step-2" style="display: none;">
+                            <div class="form-group">
+                                <h3 class="text-center">¡Estás a un paso de terminar!</h3>
+                                <p class="text-center">Por seguridad, verifica tu identidad</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Escanea tu tarjeta de identificación</label>
+                                <div class="scanner-container">
+                                    <div class="scanner-frame" id="card-scanner">
+                                        <i class="fas fa-id-card scanner-icon"></i>
+                                        <p>Coloca tu tarjeta aquí</p>
+                                        <video id="camera-preview" autoplay playsinline></video>
+                                        <canvas id="card-canvas" style="display: none;"></canvas>
+                                        <div class="camera-active" style="display: none;"></div>
+                                    </div>
+                                    <div class="scanner-status" id="card-status">Esperando tarjeta...</div>
+                                    <div class="scanner-instructions">Asegúrate de que la tarjeta esté bien iluminada y dentro del cuadro</div>
+                                </div>
+                                <div class="camera-controls">
+                                    <button type="button" class="btn btn-outline" id="start-camera">Activar Cámara</button>
+                                    <button type="button" class="btn btn-primary" id="capture-card" disabled>Capturar Documento</button>
+                                </div>
+                                <div class="validation-message invalid" id="card-validation">
+                                    <i class="fas fa-times-circle"></i> No se detecta una tarjeta válida
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" id="register-back-1">Atrás</button>
+                                <button type="button" class="btn btn-primary" id="register-next-2" disabled>Continuar</button>
+                            </div>
+                        </div>
+                        
+                        <div id="register-step-3" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">Verificación facial</label>
+                                <div class="scanner-container">
+                                    <div class="scanner-frame face-scanner" id="face-scanner">
+                                        <i class="fas fa-user scanner-icon"></i>
+                                        <p>Coloca tu rostro aquí</p>
+                                        <video id="camera-face-preview" autoplay playsinline></video>
+                                        <canvas id="face-canvas" style="display: none;"></canvas>
+                                        <div class="face-landmarks" id="face-landmarks"></div>
+                                        <div class="camera-active" style="display: none;"></div>
+                                    </div>
+                                    <div class="scanner-status" id="face-status">Esperando rostro...</div>
+                                    <div class="scanner-instructions">Mira directamente a la cámara con buena iluminación</div>
+                                </div>
+                                <div class="camera-controls">
+                                    <button type="button" class="btn btn-outline" id="start-face-camera">Activar Cámara</button>
+                                    <button type="button" class="btn btn-primary" id="capture-face" disabled>Capturar Rostro</button>
+                                </div>
+                                <div class="validation-message invalid" id="face-validation">
+                                    <i class="fas fa-times-circle"></i> No se detecta un rostro válido
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" id="register-back-2">Atrás</button>
+                                <button type="button" class="btn btn-primary" id="register-next-3" disabled>Continuar</button>
+                            </div>
+                        </div>
+                        
+                        <div id="register-step-4" style="display: none;">
+                            <div class="form-group">
+                                <h3 class="text-center">¡Cuenta casi lista!</h3>
+                                <p class="text-center">Genera tu código de seguridad para finalizar</p>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary btn-full" id="generate-code">Generar Código de Seguridad</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section class="video-section">
+            <video class="background-video" autoplay muted loop>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-cleaning-a-window-47985-large.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+            <div class="video-overlay"></div>
+            <div class="video-content">
+                <h1>DomesticPro</h1>
+                <p>La plataforma más segura para conectar empleadores con personal doméstico calificado</p>
+                <div style="margin-top: 30px;">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3>Verificación Biométrica Avanzada</h3>
+                    <p>Nuestro sistema de reconocimiento facial garantiza la máxima seguridad para todos los usuarios</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    
+    <!-- Security Code Login Modal -->
+    <div class="modal" id="security-code-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iniciar Sesión con Código de Seguridad</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="security-code" class="form-label">Ingresa tu código de seguridad de 8 dígitos</label>
+                    <input type="text" id="security-code" class="form-input" maxlength="8" placeholder="XXXX-XXXX">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="verify-security-code">Verificar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Welcome Modal -->
+    <div class="modal" id="welcome-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>¡Bienvenida de nuevo!</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="welcome-message">Hola [Usuario], bienvenida de nuevo!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary modal-close" id="go-to-dashboard">Continuar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Registration Complete Modal -->
+    <div class="modal" id="registration-complete-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>¡Cuenta Creada Exitosamente!</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="registration-complete-message">Perfecto [Usuario], tu cuenta está lista! Por favor, guarda este código de seguridad, es muy importante y podrá mantener tu cuenta activa.</p>
+                <div class="code-display" id="generated-code">XXXX-XXXX</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary modal-close" id="go-to-main">Continuar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgot-password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Recuperar Acceso</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Selecciona método de recuperación</label>
+                    <div class="form-radio-group" style="flex-direction: column;">
+                        <label class="form-radio">
+                            <input type="radio" name="recovery-method" value="code" checked> Usar código de seguridad
+                        </label>
+                        <label class="form-radio">
+                            <input type="radio" name="recovery-method" value="face"> Verificación facial
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="recovery-code-section">
+                    <div class="form-group">
+                        <label for="recovery-code" class="form-label">Ingresa tu código de seguridad</label>
+                        <input type="text" id="recovery-code" class="form-input" maxlength="8" placeholder="XXXX-XXXX">
+                    </div>
+                </div>
+                
+                <div id="recovery-face-section" style="display: none;">
+                    <div class="scanner-container">
+                        <div class="scanner-frame face-scanner" id="recovery-face-scanner">
+                            <i class="fas fa-user scanner-icon"></i>
+                            <p>Coloca tu rostro aquí</p>
+                            <video id="recovery-camera-preview" autoplay playsinline></video>
+                            <canvas id="recovery-face-canvas" style="display: none;"></canvas>
+                            <div class="face-landmarks" id="recovery-face-landmarks"></div>
+                            <div class="camera-active" style="display: none;"></div>
+                        </div>
+                        <div class="scanner-status" id="recovery-face-status">Esperando rostro...</div>
+                        <div class="camera-controls">
+                            <button type="button" class="btn btn-outline" id="start-recovery-camera">Activar Cámara</button>
+                            <button type="button" class="btn btn-primary" id="capture-recovery-face" disabled>Capturar Rostro</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="recover-account">Recuperar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cargar TensorFlow.js y Face-API.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.min.js"></script>
+
+    <script>
+        // Variables globales
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('domesticProUsers')) || {};
+        let currentStep = 1;
+        let cameraStream = null;
+        let faceCameraStream = null;
+        let recoveryCameraStream = null;
+        let faceDetectionModel = null;
+        let isDetectingFace = false;
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Cargar el modelo de detección facial
+            try {
+                faceDetectionModel = await faceLandmarksDetection.load(
+                    faceLandmarksDetection.SupportedPackages.mediapipeFacemesh,
+                    {maxFaces: 1}
+                );
+                console.log('Modelo de detección facial cargado correctamente');
+            } catch (error) {
+                console.error('Error al cargar el modelo de detección facial:', error);
+            }
+            
+            // Tabs de autenticación
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Actualizar tabs activos
+                    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar formulario correspondiente
+                    document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                    document.getElementById(`${tabId}-form`).classList.add('active');
+                    
+                    // Reiniciar formulario de registro si es necesario
+                    if (tabId === 'register') {
+                        resetRegisterForm();
+                    }
+                });
+            });
+            
+            // Cambiar entre login y registro
+            document.getElementById('switch-to-register').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.auth-tab[data-tab="register"]').click();
+            });
+            
+            document.getElementById('switch-to-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.auth-tab[data-tab="login"]').click();
+            });
+            
+            // Login con código de seguridad
+            document.getElementById('security-code-login').addEventListener('click', function() {
+                document.getElementById('security-code-modal').classList.add('active');
+            });
+            
+            // Verificar código de seguridad
+            document.getElementById('verify-security-code').addEventListener('click', function() {
+                const code = document.getElementById('security-code').value.replace(/-/g, '');
+                
+                if (code.length !== 8) {
+                    alert('El código debe tener 8 dígitos');
+                    return;
+                }
+                
+                // Simular verificación
+                this.innerHTML = '<span class="loading"></span> Verificando...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    // Buscar usuario con este código
+                    let userFound = null;
+                    for (const username in users) {
+                        if (users[username].securityCode === code) {
+                            userFound = users[username];
+                            userFound.username = username;
+                            break;
+                        }
+                    }
+                    
+                    if (userFound) {
+                        currentUser = userFound;
+                        document.getElementById('welcome-message').textContent = `Hola ${userFound.username}, bienvenida de nuevo!`;
+                        document.getElementById('security-code-modal').classList.remove('active');
+                        document.getElementById('welcome-modal').classList.add('active');
+                    } else {
+                        alert('Código de seguridad incorrecto');
+                        this.innerHTML = 'Verificar';
+                        this.disabled = false;
+                    }
+                }, 1500);
+            });
+            
+            // Formulario de login
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+                const submitBtn = this.querySelector('button[type="submit"]');
+                
+                // Simular verificación
+                submitBtn.innerHTML = '<span class="loading"></span> Verificando...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    if (users[username] && users[username].password === password) {
+                        currentUser = users[username];
+                        currentUser.username = username;
+                        document.getElementById('welcome-message').textContent = `Hola ${username}, bienvenida de nuevo!`;
+                        document.getElementById('welcome-modal').classList.add('active');
+                    } else {
+                        alert('Usuario o contraseña incorrectos');
+                        submitBtn.innerHTML = 'Iniciar Sesión';
+                        submitBtn.disabled = false;
+                    }
+                }, 1500);
+            });
+            
+            // Navegación del formulario de registro
+            document.getElementById('register-next-1').addEventListener('click', function() {
+                // Validar campos del paso 1
+                const username = document.getElementById('register-username').value;
+                const fullname = document.getElementById('register-fullname').value;
+                const id = document.getElementById('register-id').value;
+                const age = document.getElementById('register-age').value;
+                const gender = document.querySelector('input[name="gender"]:checked');
+                
+                if (!username || !fullname || !id || !age || !gender) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
+                
+                if (users[username]) {
+                    alert('Este nombre de usuario ya está en uso');
+                    return;
+                }
+                
+                // Avanzar al paso 2
+                document.getElementById('register-step-1').style.display = 'none';
+                document.getElementById('register-step-2').style.display = 'block';
+                currentStep = 2;
+            });
+            
+            document.getElementById('register-back-1').addEventListener('click', function() {
+                document.getElementById('register-step-2').style.display = 'none';
+                document.getElementById('register-step-1').style.display = 'block';
+                currentStep = 1;
+                stopCamera();
+            });
+            
+            document.getElementById('register-next-2').addEventListener('click', function() {
+                // Avanzar al paso 3
+                document.getElementById('register-step-2').style.display = 'none';
+                document.getElementById('register-step-3').style.display = 'block';
+                currentStep = 3;
+                stopCamera();
+            });
+            
+            document.getElementById('register-back-2').addEventListener('click', function() {
+                document.getElementById('register-step-3').style.display = 'none';
+                document.getElementById('register-step-2').style.display = 'block';
+                currentStep = 2;
+                stopFaceCamera();
+            });
+            
+            document.getElementById('register-next-3').addEventListener('click', function() {
+                // Avanzar al paso 4
+                document.getElementById('register-step-3').style.display = 'none';
+                document.getElementById('register-step-4').style.display = 'block';
+                currentStep = 4;
+                stopFaceCamera();
+            });
+            
+            // Activar cámara para documento
+            document.getElementById('start-camera').addEventListener('click', function() {
+                startCamera('camera-preview', 'card-scanner', 'card-status', 'capture-card');
+            });
+            
+            // Capturar documento
+            document.getElementById('capture-card').addEventListener('click', function() {
+                const scanner = document.getElementById('card-scanner');
+                const status = document.getElementById('card-status');
+                const nextBtn = document.getElementById('register-next-2');
+                const validationMsg = document.getElementById('card-validation');
+                const video = document.getElementById('camera-preview');
+                const canvas = document.getElementById('card-canvas');
+                
+                // Configurar canvas
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Obtener imagen como base64
+                const imageData = canvas.toDataURL('image/jpeg');
+                
+                // Simular procesamiento de imagen
+                this.innerHTML = '<span class="loading"></span> Procesando...';
+                this.disabled = true;
+                
+                // En una aplicación real, aquí se procesaría la imagen para detectar la cédula
+                setTimeout(() => {
+                    // Simular detección exitosa (en una aplicación real, esto dependería del procesamiento real)
+                    const documentDetected = Math.random() > 0.3; // 70% de probabilidad de éxito
+                    
+                    if (documentDetected) {
+                        scanner.classList.remove('detecting');
+                        scanner.classList.add('ready');
+                        status.textContent = 'Documento verificado correctamente';
+                        nextBtn.disabled = false;
+                        this.innerHTML = 'Captura Exitosa';
+                        validationMsg.innerHTML = '<i class="fas fa-check-circle"></i> Documento válido detectado';
+                        validationMsg.classList.remove('invalid');
+                        validationMsg.classList.add('valid');
+                        
+                        // Guardar imagen del documento (en una aplicación real)
+                        console.log('Imagen del documento capturada:', imageData.substring(0, 50) + '...');
+                    } else {
+                        status.textContent = 'No se pudo verificar el documento. Intenta de nuevo.';
+                        this.innerHTML = 'Capturar Documento';
+                        this.disabled = false;
+                        validationMsg.innerHTML = '<i class="fas fa-times-circle"></i> No se detecta un documento válido';
+                        validationMsg.classList.remove('valid');
+                        validationMsg.classList.add('invalid');
+                    }
+                }, 2000);
+            });
+            
+            // Activar cámara para rostro
+            document.getElementById('start-face-camera').addEventListener('click', function() {
+                startFaceCamera('camera-face-preview', 'face-scanner', 'face-status', 'capture-face');
+            });
+            
+            // Capturar rostro
+            document.getElementById('capture-face').addEventListener('click', async function() {
+                const scanner = document.getElementById('face-scanner');
+                const status = document.getElementById('face-status');
+                const nextBtn = document.getElementById('register-next-3');
+                const validationMsg = document.getElementById('face-validation');
+                const video = document.getElementById('camera-face-preview');
+                const canvas = document.getElementById('face-canvas');
+                const landmarksContainer = document.getElementById('face-landmarks');
+                
+                // Configurar canvas
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Obtener imagen como base64
+                const imageData = canvas.toDataURL('image/jpeg');
+                
+                // Simular procesamiento de imagen facial
+                this.innerHTML = '<span class="loading"></span> Procesando...';
+                this.disabled = true;
+                
+                try {
+                    // Detectar rostro y landmarks
+                    const faces = await faceDetectionModel.estimateFaces({
+                        input: video,
+                        returnTensors: false,
+                        flipHorizontal: false,
+                        predictIrises: true
+                    });
+                    
+                    if (faces.length > 0) {
+                        const face = faces[0];
+                        
+                        // Limpiar landmarks anteriores
+                        landmarksContainer.innerHTML = '';
+                        
+                        // Dibujar landmarks
+                        face.scaledMesh.forEach(point => {
+                            const landmark = document.createElement('div');
+                            landmark.className = 'face-point';
+                            landmark.style.left = `${point[0] / video.videoWidth * 100}%`;
+                            landmark.style.top = `${point[1] / video.videoHeight * 100}%`;
+                            landmarksContainer.appendChild(landmark);
+                        });
+                        
+                        // Dibujar contorno del rostro
+                        const outline = document.createElement('div');
+                        outline.className = 'face-outline';
+                        
+                        // Calcular bounding box del rostro
+                        const minX = Math.min(...face.scaledMesh.map(p => p[0]));
+                        const maxX = Math.max(...face.scaledMesh.map(p => p[0]));
+                        const minY = Math.min(...face.scaledMesh.map(p => p[1]));
+                        const maxY = Math.max(...face.scaledMesh.map(p => p[1]));
+                        
+                        outline.style.left = `${minX / video.videoWidth * 100}%`;
+                        outline.style.top = `${minY / video.videoHeight * 100}%`;
+                        outline.style.width = `${(maxX - minX) / video.videoWidth * 100}%`;
+                        outline.style.height = `${(maxY - minY) / video.videoHeight * 100}%`;
+                        
+                        landmarksContainer.appendChild(outline);
+                        
+                        // Extraer características faciales para almacenamiento
+                        const facialData = {
+                            landmarks: face.scaledMesh,
+                            boundingBox: { minX, minY, maxX, maxY },
+                            image: imageData,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        // Almacenar datos faciales (en una aplicación real, esto se enviaría al servidor)
+                        console.log('Datos faciales capturados:', facialData);
+                        
+                        scanner.classList.remove('detecting');
+                        scanner.classList.add('ready');
+                        status.textContent = 'Rostro verificado correctamente';
+                        nextBtn.disabled = false;
+                        this.innerHTML = 'Captura Exitosa';
+                        validationMsg.innerHTML = '<i class="fas fa-check-circle"></i> Rostro válido detectado';
+                        validationMsg.classList.remove('invalid');
+                        validationMsg.classList.add('valid');
+                        
+                        // Guardar datos faciales para el usuario actual
+                        const username = document.getElementById('register-username').value;
+                        if (users[username]) {
+                            users[username].facialData = facialData;
+                            localStorage.setItem('domesticProUsers', JSON.stringify(users));
+                        }
+                    } else {
+                        status.textContent = 'No se pudo detectar un rostro. Intenta de nuevo.';
+                        this.innerHTML = 'Capturar Rostro';
+                        this.disabled = false;
+                        validationMsg.innerHTML = '<i class="fas fa-times-circle"></i> No se detecta un rostro válido';
+                        validationMsg.classList.remove('valid');
+                        validationMsg.classList.add('invalid');
+                    }
+                } catch (error) {
+                    console.error('Error en detección facial:', error);
+                    status.textContent = 'Error en la detección facial. Intenta de nuevo.';
+                    this.innerHTML = 'Capturar Rostro';
+                    this.disabled = false;
+                }
+            });
+            
+            // Generar código de seguridad
+            document.getElementById('generate-code').addEventListener('click', function() {
+                const username = document.getElementById('register-username').value;
+                const fullname = document.getElementById('register-fullname').value;
+                const id = document.getElementById('register-id').value;
+                const age = document.getElementById('register-age').value;
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                
+                // Generar código de 8 dígitos
+                const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+                
+                // Guardar usuario
+                users[username] = {
+                    fullname: fullname,
+                    id: id,
+                    age: age,
+                    gender: gender,
+                    securityCode: code,
+                    password: 'defaultPassword', // En una aplicación real, esto sería hasheado
+                    facialData: users[username] ? users[username].facialData : null
+                };
+                
+                // Guardar en localStorage
+                localStorage.setItem('domesticProUsers', JSON.stringify(users));
+                
+                // Mostrar código
+                document.getElementById('generated-code').textContent = code.substring(0, 4) + '-' + code.substring(4);
+                document.getElementById('registration-complete-message').textContent = 
+                    `Perfecto ${username}, tu cuenta está lista! Por favor, guarda este código de seguridad, es muy importante y podrá mantener tu cuenta activa.`;
+                
+                document.getElementById('registration-complete-modal').classList.add('active');
+            });
+            
+            // Recuperar contraseña
+            document.getElementById('forgot-password').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('forgot-password-modal').classList.add('active');
+            });
+            
+            // Cambiar método de recuperación
+            document.querySelectorAll('input[name="recovery-method"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'code') {
+                        document.getElementById('recovery-code-section').style.display = 'block';
+                        document.getElementById('recovery-face-section').style.display = 'none';
+                        stopRecoveryCamera();
+                    } else {
+                        document.getElementById('recovery-code-section').style.display = 'none';
+                        document.getElementById('recovery-face-section').style.display = 'block';
+                    }
+                });
+            });
+            
+            // Activar cámara para recuperación facial
+            document.getElementById('start-recovery-camera').addEventListener('click', function() {
+                startRecoveryCamera('recovery-camera-preview', 'recovery-face-scanner', 'recovery-face-status', 'capture-recovery-face');
+            });
+            
+            // Capturar rostro para recuperación
+            document.getElementById('capture-recovery-face').addEventListener('click', async function() {
+                const scanner = document.getElementById('recovery-face-scanner');
+                const status = document.getElementById('recovery-face-status');
+                const video = document.getElementById('recovery-camera-preview');
+                const canvas = document.getElementById('recovery-face-canvas');
+                const landmarksContainer = document.getElementById('recovery-face-landmarks');
+                
+                // Simular procesamiento de imagen facial
+                this.innerHTML = '<span class="loading"></span> Procesando...';
+                this.disabled = true;
+                
+                try {
+                    // Detectar rostro
+                    const faces = await faceDetectionModel.estimateFaces({
+                        input: video,
+                        returnTensors: false,
+                        flipHorizontal: false,
+                        predictIrises: true
+                    });
+                    
+                    if (faces.length > 0) {
+                        const face = faces[0];
+                        
+                        // Limpiar landmarks anteriores
+                        landmarksContainer.innerHTML = '';
+                        
+                        // Dibujar landmarks
+                        face.scaledMesh.forEach(point => {
+                            const landmark = document.createElement('div');
+                            landmark.className = 'face-point';
+                            landmark.style.left = `${point[0] / video.videoWidth * 100}%`;
+                            landmark.style.top = `${point[1] / video.videoHeight * 100}%`;
+                            landmarksContainer.appendChild(landmark);
+                        });
+                        
+                        scanner.classList.remove('detecting');
+                        scanner.classList.add('ready');
+                        status.textContent = 'Rostro verificado correctamente';
+                        this.innerHTML = 'Captura Exitosa';
+                        
+                        // Simular búsqueda de usuario por rostro
+                        setTimeout(() => {
+                            alert('Funcionalidad de reconocimiento facial simulada. En una aplicación real, se compararía con los rostros guardados.');
+                        }, 500);
+                    } else {
+                        status.textContent = 'No se pudo detectar un rostro. Intenta de nuevo.';
+                        this.innerHTML = 'Capturar Rostro';
+                        this.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Error en detección facial:', error);
+                    status.textContent = 'Error en la detección facial. Intenta de nuevo.';
+                    this.innerHTML = 'Capturar Rostro';
+                    this.disabled = false;
+                }
+            });
+            
+            // Recuperar cuenta
+            document.getElementById('recover-account').addEventListener('click', function() {
+                const method = document.querySelector('input[name="recovery-method"]:checked').value;
+                
+                if (method === 'code') {
+                    const code = document.getElementById('recovery-code').value.replace(/-/g, '');
+                    
+                    if (code.length !== 8) {
+                        alert('El código debe tener 8 dígitos');
+                        return;
+                    }
+                    
+                    // Buscar usuario con este código
+                    let userFound = null;
+                    for (const username in users) {
+                        if (users[username].securityCode === code) {
+                            userFound = users[username];
+                            userFound.username = username;
+                            break;
+                        }
+                    }
+                    
+                    if (userFound) {
+                        alert(`Usuario encontrado: ${userFound.username}. En una aplicación real, se permitiría restablecer la contraseña.`);
+                        document.getElementById('forgot-password-modal').classList.remove('active');
+                    } else {
+                        alert('Código de seguridad incorrecto');
+                    }
+                } else {
+                    alert('Funcionalidad de reconocimiento facial para recuperación simulada.');
+                }
+            });
+            
+            // Cerrar modales
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').classList.remove('active');
+                    
+                    // Reiniciar estados si es necesario
+                    if (this.closest('.modal').id === 'security-code-modal') {
+                        document.getElementById('security-code').value = '';
+                        document.getElementById('verify-security-code').innerHTML = 'Verificar';
+                        document.getElementById('verify-security-code').disabled = false;
+                    }
+                    
+                    if (this.closest('.modal').id === 'forgot-password-modal') {
+                        document.getElementById('recovery-code').value = '';
+                        document.querySelector('input[name="recovery-method"][value="code"]').checked = true;
+                        document.getElementById('recovery-code-section').style.display = 'block';
+                        document.getElementById('recovery-face-section').style.display = 'none';
+                        stopRecoveryCamera();
+                    }
+                });
+            });
+            
+            // Redirigir después de login/registro exitoso
+            document.getElementById('go-to-dashboard').addEventListener('click', function() {
+                window.location.href = 'dashboard.html';
+            });
+            
+            document.getElementById('go-to-main').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // Header con efecto al hacer scroll
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+        
+        // Función para reiniciar el formulario de registro
+        function resetRegisterForm() {
+            document.getElementById('register-step-1').style.display = 'block';
+            document.getElementById('register-step-2').style.display = 'none';
+            document.getElementById('register-step-3').style.display = 'none';
+            document.getElementById('register-step-4').style.display = 'none';
+            
+            document.getElementById('register-username').value = '';
+            document.getElementById('register-fullname').value = '';
+            document.getElementById('register-id').value = '';
+            document.getElementById('register-age').value = '';
+            document.querySelectorAll('input[name="gender"]').forEach(radio => radio.checked = false);
+            
+            // Reiniciar escáneres
+            document.getElementById('card-scanner').classList.remove('ready', 'detecting');
+            document.getElementById('face-scanner').classList.remove('ready', 'detecting');
+            document.getElementById('card-status').textContent = 'Esperando tarjeta...';
+            document.getElementById('face-status').textContent = 'Esperando rostro...';
+            
+            document.getElementById('capture-card').innerHTML = 'Capturar Documento';
+            document.getElementById('capture-card').disabled = true;
+            document.getElementById('capture-face').innerHTML = 'Capturar Rostro';
+            document.getElementById('capture-face').disabled = true;
+            
+            document.getElementById('register-next-2').disabled = true;
+            document.getElementById('register-next-3').disabled = true;
+            
+            // Reiniciar mensajes de validación
+            document.getElementById('card-validation').innerHTML = '<i class="fas fa-times-circle"></i> No se detecta una tarjeta válida';
+            document.getElementById('card-validation').classList.remove('valid');
+            document.getElementById('card-validation').classList.add('invalid');
+            
+            document.getElementById('face-validation').innerHTML = '<i class="fas fa-times-circle"></i> No se detecta un rostro válido';
+            document.getElementById('face-validation').classList.remove('valid');
+            document.getElementById('face-validation').classList.add('invalid');
+            
+            currentStep = 1;
+            
+            // Detener todas las cámaras
+            stopCamera();
+            stopFaceCamera();
+        }
+        
+        // Función para activar la cámara para documentos
+        function startCamera(videoId, scannerId, statusId, captureBtnId) {
+            const video = document.getElementById(videoId);
+            const scanner = document.getElementById(scannerId);
+            const status = document.getElementById(statusId);
+            const captureBtn = document.getElementById(captureBtnId);
+            const cameraActive = scanner.querySelector('.camera-active');
+            
+            // Ocultar icono y mostrar video
+            scanner.querySelector('.scanner-icon').style.display = 'none';
+            scanner.querySelector('p').style.display = 'none';
+            video.style.display = 'block';
+            cameraActive.style.display = 'block';
+            
+            scanner.classList.add('detecting');
+            status.textContent = 'Activando cámara...';
+            
+            // Solicitar acceso a la cámara
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'environment', // Preferir cámara trasera en dispositivos móviles
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                })
+                .then(function(stream) {
+                    cameraStream = stream;
+                    video.srcObject = stream;
+                    status.textContent = 'Cámara activa. Coloca tu documento en el cuadro.';
+                    captureBtn.disabled = false;
+                })
+                .catch(function(error) {
+                    console.error('Error al acceder a la cámara:', error);
+                    status.textContent = 'Error al acceder a la cámara. Asegúrate de permitir el acceso.';
+                    
+                    // Mostrar icono de nuevo
+                    scanner.querySelector('.scanner-icon').style.display = 'block';
+                    scanner.querySelector('p').style.display = 'block';
+                    video.style.display = 'none';
+                    cameraActive.style.display = 'none';
+                    scanner.classList.remove('detecting');
+                });
+            } else {
+                alert('Tu navegador no soporta el acceso a la cámara.');
+                status.textContent = 'Navegador no compatible con la cámara.';
+                
+                // Mostrar icono de nuevo
+                scanner.querySelector('.scanner-icon').style.display = 'block';
+                scanner.querySelector('p').style.display = 'block';
+                video.style.display = 'none';
+                cameraActive.style.display = 'none';
+                scanner.classList.remove('detecting');
+            }
+        }
+        
+        // Función para activar la cámara para rostros
+        function startFaceCamera(videoId, scannerId, statusId, captureBtnId) {
+            const video = document.getElementById(videoId);
+            const scanner = document.getElementById(scannerId);
+            const status = document.getElementById(statusId);
+            const captureBtn = document.getElementById(captureBtnId);
+            const cameraActive = scanner.querySelector('.camera-active');
+            
+            // Ocultar icono y mostrar video
+            scanner.querySelector('.scanner-icon').style.display = 'none';
+            scanner.querySelector('p').style.display = 'none';
+            video.style.display = 'block';
+            cameraActive.style.display = 'block';
+            
+            scanner.classList.add('detecting');
+            status.textContent = 'Activando cámara...';
+            
+            // Solicitar acceso a la cámara
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user', // Preferir cámara frontal para rostros
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                })
+                .then(function(stream) {
+                    faceCameraStream = stream;
+                    video.srcObject = stream;
+                    status.textContent = 'Cámara activa. Coloca tu rostro en el círculo.';
+                    captureBtn.disabled = false;
+                    
+                    // Iniciar detección facial en tiempo real
+                    startFaceDetection(video, scannerId);
+                })
+                .catch(function(error) {
+                    console.error('Error al acceder a la cámara:', error);
+                    status.textContent = 'Error al acceder a la cámara. Asegúrate de permitir el acceso.';
+                    
+                    // Mostrar icono de nuevo
+                    scanner.querySelector('.scanner-icon').style.display = 'block';
+                    scanner.querySelector('p').style.display = 'block';
+                    video.style.display = 'none';
+                    cameraActive.style.display = 'none';
+                    scanner.classList.remove('detecting');
+                });
+            } else {
+                alert('Tu navegador no soporta el acceso a la cámara.');
+                status.textContent = 'Navegador no compatible con la cámara.';
+                
+                // Mostrar icono de nuevo
+                scanner.querySelector('.scanner-icon').style.display = 'block';
+                scanner.querySelector('p').style.display = 'block';
+                video.style.display = 'none';
+                cameraActive.style.display = 'none';
+                scanner.classList.remove('detecting');
+            }
+        }
+        
+        // Función para iniciar la detección facial en tiempo real
+        async function startFaceDetection(video, scannerId) {
+            if (!faceDetectionModel) return;
+            
+            const scanner = document.getElementById(scannerId);
+            const landmarksContainer = document.getElementById(scannerId === 'face-scanner' ? 'face-landmarks' : 'recovery-face-landmarks');
+            const status = document.getElementById(scannerId === 'face-scanner' ? 'face-status' : 'recovery-face-status');
+            const captureBtn = document.getElementById(scannerId === 'face-scanner' ? 'capture-face' : 'capture-recovery-face');
+            
+            isDetectingFace = true;
+            
+            async function detectFaces() {
+                if (!isDetectingFace) return;
+                
+                try {
+                    const faces = await faceDetectionModel.estimateFaces({
+                        input: video,
+                        returnTensors: false,
+                        flipHorizontal: false,
+                        predictIrises: true
+                    });
+                    
+                    // Limpiar landmarks anteriores
+                    landmarksContainer.innerHTML = '';
+                    
+                    if (faces.length > 0) {
+                        const face = faces[0];
+                        
+                        // Dibujar landmarks
+                        face.scaledMesh.forEach(point => {
+                            const landmark = document.createElement('div');
+                            landmark.className = 'face-point';
+                            landmark.style.left = `${point[0] / video.videoWidth * 100}%`;
+                            landmark.style.top = `${point[1] / video.videoHeight * 100}%`;
+                            landmarksContainer.appendChild(landmark);
+                        });
+                        
+                        // Dibujar contorno del rostro
+                        const outline = document.createElement('div');
+                        outline.className = 'face-outline';
+                        
+                        // Calcular bounding box del rostro
+                        const minX = Math.min(...face.scaledMesh.map(p => p[0]));
+                        const maxX = Math.max(...face.scaledMesh.map(p => p[0]));
+                        const minY = Math.min(...face.scaledMesh.map(p => p[1]));
+                        const maxY = Math.max(...face.scaledMesh.map(p => p[1]));
+                        
+                        outline.style.left = `${minX / video.videoWidth * 100}%`;
+                        outline.style.top = `${minY / video.videoHeight * 100}%`;
+                        outline.style.width = `${(maxX - minX) / video.videoWidth * 100}%`;
+                        outline.style.height = `${(maxY - minY) / video.videoHeight * 100}%`;
+                        
+                        landmarksContainer.appendChild(outline);
+                        
+                        status.textContent = 'Rostro detectado. Listo para capturar.';
+                        captureBtn.disabled = false;
+                    } else {
+                        status.textContent = 'Coloca tu rostro en el círculo.';
+                        captureBtn.disabled = true;
+                    }
+                } catch (error) {
+                    console.error('Error en detección facial:', error);
+                }
+                
+                // Continuar la detección
+                requestAnimationFrame(detectFaces);
+            }
+            
+            // Iniciar la detección
+            detectFaces();
+        }
+        
+        // Función para activar la cámara para recuperación facial
+        function startRecoveryCamera(videoId, scannerId, statusId, captureBtnId) {
+            const video = document.getElementById(videoId);
+            const scanner = document.getElementById(scannerId);
+            const status = document.getElementById(statusId);
+            const captureBtn = document.getElementById(captureBtnId);
+            const cameraActive = scanner.querySelector('.camera-active');
+            
+            // Ocultar icono y mostrar video
+            scanner.querySelector('.scanner-icon').style.display = 'none';
+            scanner.querySelector('p').style.display = 'none';
+            video.style.display = 'block';
+            cameraActive.style.display = 'block';
+            
+            scanner.classList.add('detecting');
+            status.textContent = 'Activando cámara...';
+            
+            // Solicitar acceso a la cámara
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user', // Preferir cámara frontal para rostros
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                })
+                .then(function(stream) {
+                    recoveryCameraStream = stream;
+                    video.srcObject = stream;
+                    status.textContent = 'Cámara activa. Coloca tu rostro en el círculo.';
+                    captureBtn.disabled = false;
+                    
+                    // Iniciar detección facial en tiempo real
+                    startFaceDetection(video, scannerId);
+                })
+                .catch(function(error) {
+                    console.error('Error al acceder a la cámara:', error);
+                    status.textContent = 'Error al acceder a la cámara. Asegúrate de permitir el acceso.';
+                    
+                    // Mostrar icono de nuevo
+                    scanner.querySelector('.scanner-icon').style.display = 'block';
+                    scanner.querySelector('p').style.display = 'block';
+                    video.style.display = 'none';
+                    cameraActive.style.display = 'none';
+                    scanner.classList.remove('detecting');
+                });
+            } else {
+                alert('Tu navegador no soporta el acceso a la cámara.');
+                status.textContent = 'Navegador no compatible con la cámara.';
+                
+                // Mostrar icono de nuevo
+                scanner.querySelector('.scanner-icon').style.display = 'block';
+                scanner.querySelector('p').style.display = 'block';
+                video.style.display = 'none';
+                cameraActive.style.display = 'none';
+                scanner.classList.remove('detecting');
+            }
+        }
+        
+        // Función para detener la cámara de documentos
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+            
+            const video = document.getElementById('camera-preview');
+            const scanner = document.getElementById('card-scanner');
+            const cameraActive = scanner.querySelector('.camera-active');
+            
+            // Mostrar icono y ocultar video
+            scanner.querySelector('.scanner-icon').style.display = 'block';
+            scanner.querySelector('p').style.display = 'block';
+            video.style.display = 'none';
+            cameraActive.style.display = 'none';
+            scanner.classList.remove('detecting');
+            
+            document.getElementById('capture-card').disabled = true;
+            document.getElementById('capture-card').innerHTML = 'Capturar Documento';
+        }
+        
+        // Función para detener la cámara de rostros
+        function stopFaceCamera() {
+            if (faceCameraStream) {
+                faceCameraStream.getTracks().forEach(track => track.stop());
+                faceCameraStream = null;
+            }
+            
+            const video = document.getElementById('camera-face-preview');
+            const scanner = document.getElementById('face-scanner');
+            const cameraActive = scanner.querySelector('.camera-active');
+            
+            // Mostrar icono y ocultar video
+            scanner.querySelector('.scanner-icon').style.display = 'block';
+            scanner.querySelector('p').style.display = 'block';
+            video.style.display = 'none';
+            cameraActive.style.display = 'none';
+            scanner.classList.remove('detecting');
+            
+            document.getElementById('capture-face').disabled = true;
+            document.getElementById('capture-face').innerHTML = 'Capturar Rostro';
+            
+            // Detener la detección facial
+            isDetectingFace = false;
+        }
+        
+        // Función para detener la cámara de recuperación
+        function stopRecoveryCamera() {
+            if (recoveryCameraStream) {
+                recoveryCameraStream.getTracks().forEach(track => track.stop());
+                recoveryCameraStream = null;
+            }
+            
+            const video = document.getElementById('recovery-camera-preview');
+            const scanner = document.getElementById('recovery-face-scanner');
+            const cameraActive = scanner.querySelector('.camera-active');
+            
+            // Mostrar icono y ocultar video
+            scanner.querySelector('.scanner-icon').style.display = 'block';
+            scanner.querySelector('p').style.display = 'block';
+            video.style.display = 'none';
+            cameraActive.style.display = 'none';
+            scanner.classList.remove('detecting');
+            
+            document.getElementById('capture-recovery-face').disabled = true;
+            document.getElementById('capture-recovery-face').innerHTML = 'Capturar Rostro';
+            
+            // Detener la detección facial
+            isDetectingFace = false;
+        }
+    </script>
+</body>
+</html>
